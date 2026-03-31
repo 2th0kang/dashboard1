@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안티그래비티 교육 요약 대시보드</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            gap: 2rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 3rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 40%);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #e2e8f0;
+        }
+
+        ul { list-style: none; display: grid; gap: 1rem; }
+        li { display: flex; align-items: flex-start; gap: 1rem; }
+        .icon { color: var(--accent); font-weight: bold; flex-shrink: 0; }
+
+        .quote {
+            padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+            color: #f1f5f9;
+        }
+
+        /* Forms & Buttons */
+        .action-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        .action-btn.primary {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        .action-btn.primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(0,0,0,0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            color: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .prompt-card {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            color: #a78bfa;
+            font-family: 'Menlo', 'Monaco', monospace;
+            font-size: 0.95rem;
+        }
+
+        /* Interactive Checklist */
+        .checklist { display: grid; gap: 1rem; }
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .check-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255,255,255,0.05);
+        }
+        .checkbox {
+            appearance: none;
+            width: 22px; height: 22px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .checkbox:checked {
+            background: var(--accent); border-color: var(--accent);
+        }
+        .checkbox:checked::after {
+            content: '✓'; position: absolute; color: white;
+            font-size: 14px; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .check-item.has-input {
+            flex-wrap: wrap;
+        }
+        .memo-input {
+            flex: 1;
+            min-width: 200px;
+            background: transparent !important;
+            border: none !important;
+            border-bottom: 1px dashed var(--text-secondary) !important;
+            border-radius: 0 !important;
+            padding: 0.2rem 0.5rem !important;
+            color: #93c5fd !important;
+        }
+        .memo-input:focus {
+            box-shadow: none !important;
+            border-bottom-color: var(--accent) !important;
+            border-bottom-style: solid !important;
+        }
+
+        a { color: #60a5fa; text-decoration: none; }
+        a:hover { text-decoration: underline; color: #93c5fd; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>📓 안티그래비티(Anti-Gravity) 교육 요약 및 메모 대시보드</h1>
+        </header>
+
+        <!-- Section 1 with Edit functionality -->
+        <div class="section" id="summary-section">
+            <div class="section-header">
+                <h2>📌 1. 오늘의 교육 핵심 요약</h2>
+                <button id="edit-btn" class="action-btn">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    수정하기
+                </button>
+            </div>
+            
+            <div id="display-mode">
+                <div class="quote">
+                    <p style="margin-bottom: 0.8rem;">
+                        <strong style="color: #93c5fd;">교육 주제:</strong><br>
+                        <span id="topic-text" style="font-size: 1.1rem;">생성형 AI를 활용한 안티그래비티 대시보드 제작 공정</span>
+                    </p>
+                    <p>
+                        <strong style="color: #93c5fd;">한 줄 정리:</strong><br>
+                        <span id="desc-text" style="color: #cbd5e1;">자연어 프롬프트를 통해 데이터 연결부터 위젯 배치까지 자동화하는 로우코드 솔루션 활용법</span>
+                    </p>
+                </div>
+            </div>
+
+            <div id="edit-mode" style="display: none;">
+                <div class="edit-form">
+                    <div class="form-group">
+                        <label>교육 주제</label>
+                        <input type="text" id="topic-input">
+                    </div>
+                    <div class="form-group">
+                        <label>한 줄 정리</label>
+                        <textarea id="desc-input" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button id="cancel-btn" class="action-btn">취소</button>
+                        <button id="save-btn" class="action-btn primary">저장 및 반영</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Tips & Prompts -->
+        <div class="section">
+            <div class="section-header" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+                <h2 style="margin-bottom: 1.5rem;">💡 2. 실습 중 얻은 꿀팁 & 주요 프롬프트</h2>
+            </div>
+            
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">실무에서 바로 복붙해서 쓸 수 있는 메모장 영역이야.</p>
+            
+            <h3 style="font-size: 1.1rem; color: #e2e8f0; margin-bottom: 1rem;">✨ 효과적인 프롬프트 예시</h3>
+            <ul style="margin-bottom: 2rem;">
+                <li>
+                    <div class="prompt-card" style="width: 100%;">
+                        "이 데이터셋에서 매출 상위 5개 항목만 막대 그래프로 그려줘."
+                    </div>
+                </li>
+                <li>
+                    <div class="prompt-card" style="width: 100%;">
+                        "대시보드 전체 테마를 회사 가이드 컬러인 블루 톤으로 맞춰줘."
+                    </div>
+                </li>
+            </ul>
+
+            <h3 style="font-size: 1.1rem; color: #e2e8f0; margin-bottom: 1rem;">⚠️ 중요 체크포인트</h3>
+            <ul>
+                <li><span class="icon">•</span> 데이터 타입(숫자, 날짜 등)이 정확히 지정되어야 AI가 차트를 잘 그림.</li>
+                <li><span class="icon">•</span> 복잡한 로직은 AI에게 단계별로 나누어서 질문할 것.</li>
+            </ul>
+        </div>
+
+        <!-- Section 3: Checklists & Memos -->
+        <div class="section">
+            <div class="section-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0;">
+                <h2>📝 3. 개인 메모 및 향후 적용 계획</h2>
+            </div>
+            
+            <div class="checklist">
+                <label class="check-item has-input">
+                    <input type="checkbox" class="checkbox" id="check-1">
+                    <span class="checkbox-label" style="min-width: 250px;">오늘 배운 내용 중 가장 어려웠던 부분:</span>
+                    <input type="text" class="memo-input" id="memo-1" placeholder="여기에 내용을 입력하세요...">
+                </label>
+                <label class="check-item has-input">
+                    <input type="checkbox" class="checkbox" id="check-2">
+                    <span class="checkbox-label" style="min-width: 250px;">회사 업무(실제 데이터)에 적용해볼 아이디어:</span>
+                    <input type="text" class="memo-input" id="memo-2" placeholder="여기에 내용을 입력하세요...">
+                </label>
+                <label class="check-item has-input">
+                    <input type="checkbox" class="checkbox" id="check-3">
+                    <span class="checkbox-label" style="min-width: 250px;">추가로 학습이 필요한 기능:</span>
+                    <input type="text" class="memo-input" id="memo-3" placeholder="여기에 내용을 입력하세요...">
+                </label>
+            </div>
+        </div>
+
+        <!-- Section 4: Links -->
+        <div class="section">
+            <div class="section-header" style="border-bottom: none; margin-bottom: 0.5rem; padding-bottom: 0;">
+                <h2>🔗 4. 관련 링크 및 자료</h2>
+            </div>
+            <ul>
+                <li><span class="icon">📎</span> <strong>안티그래비티 가이드:</strong> <a href="#">[링크 입력]</a></li>
+                <li><span class="icon">📁</span> <strong>강의 자료 PDF:</strong> <a href="#">[경로 입력]</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const editBtn = document.getElementById('edit-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        
+        const displayMode = document.getElementById('display-mode');
+        const editMode = document.getElementById('edit-mode');
+        
+        const topicText = document.getElementById('topic-text');
+        const descText = document.getElementById('desc-text');
+        
+        const topicInput = document.getElementById('topic-input');
+        const descInput = document.getElementById('desc-input');
+
+        const checkboxes = document.querySelectorAll('.checkbox');
+        const memoInputs = document.querySelectorAll('.memo-input');
+
+        // Restore saved data from LocalStorage on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTopic = localStorage.getItem('ag_topic');
+            const savedDesc = localStorage.getItem('ag_desc');
+            
+            if (savedTopic) topicText.innerText = savedTopic;
+            if (savedDesc) descText.innerText = savedDesc;
+
+            checkboxes.forEach(cb => {
+                const savedState = localStorage.getItem(`ag_${cb.id}`);
+                if (savedState !== null) cb.checked = savedState === 'true';
+                
+                // Add event listener to save state on change
+                cb.addEventListener('change', () => {
+                    localStorage.setItem(`ag_${cb.id}`, cb.checked);
+                });
+            });
+
+            memoInputs.forEach(input => {
+                const savedMemo = localStorage.getItem(`ag_${input.id}`);
+                if (savedMemo) input.value = savedMemo;
+                
+                // Add event listener to save content on typing
+                input.addEventListener('input', () => {
+                    localStorage.setItem(`ag_${input.id}`, input.value);
+                });
+            });
+        });
+
+        // Toggle function
+        function toggleMode(isEdit) {
+            if (isEdit) {
+                // Populate input values
+                topicInput.value = topicText.innerText;
+                descInput.value = descText.innerText;
+                
+                displayMode.style.display = 'none';
+                editMode.style.display = 'block';
+                editBtn.style.display = 'none';
+            } else {
+                displayMode.style.display = 'block';
+                editMode.style.display = 'none';
+                editBtn.style.display = 'flex';
+            }
+        }
+
+        editBtn.addEventListener('click', () => toggleMode(true));
+        cancelBtn.addEventListener('click', () => toggleMode(false));
+        
+        saveBtn.addEventListener('click', () => {
+            // Apply new text
+            topicText.innerText = topicInput.value;
+            descText.innerText = descInput.value;
+            
+            // Save to LocalStorage
+            localStorage.setItem('ag_topic', topicInput.value);
+            localStorage.setItem('ag_desc', descInput.value);
+            
+            // Visual feedback (flash green lightly)
+            topicText.style.transition = "color 0.3s";
+            descText.style.transition = "color 0.3s";
+            topicText.style.color = "#10b981"; 
+            descText.style.color = "#10b981"; 
+
+            setTimeout(() => {
+                topicText.style.color = "#f8fafc"; 
+                descText.style.color = "#cbd5e1"; 
+            }, 600);
+
+            toggleMode(false);
+        });
+    </script>
+</body>
+</html>
